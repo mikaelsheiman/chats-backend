@@ -1,0 +1,64 @@
+{% extends "chat_base.html" %}
+{% load static %}
+
+{% block title %}{{ data.chat.name }}{% endblock title %}
+
+
+{% block chat_info %}
+
+    <form action="{% url 'chats' %}" method="get">
+    {% csrf_token %}
+        <button type="submit" class="custom-button">
+            <img src="{% static "vector/arrow-left-svgrepo-com.svg" %}" alt="">
+        </button>
+    </form>
+
+    {% with data.chat.image_path as image_static %}
+        <img src="{% static image_static %}" alt="" class="chat-image">
+    {% endwith %}
+
+    <div class="chat-info">
+        <span class="chat-name">{{ data.chat.name }}</span>
+        <span class="members-count">{{ data.chat.members_count }} участников</span>
+    </div>
+
+    <form action="{% url 'delete_chat' data.chat.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <button type="submit" class="custom-button">
+            <img src="{% static "vector/basket-svgrepo-com.svg" %}" alt="">
+        </button>
+    </form>
+
+    <form action="{% url 'filter' data.chat.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="text" type="text" value="{{ data.search_filter }}" class="search-input" placeholder="Поиск по сообщению...">
+        <button type="submit" class="search-button custom-button">
+            <img src="{% static "vector/magnifying-glass-svgrepo-com.svg" %}" alt="">
+        </button>
+    </form>
+
+{% endblock %}
+
+{% load tz %}
+
+{% block messages %}
+    {% for message in data.messages %}
+        {% if message.user == user.client %}
+        <div class="message droplet my-message">
+        {% else %}
+        <div class="message droplet">
+        {% endif %}
+            <div class="sender-name"> {{ message.user.nickname }} </div>
+            <div class="message-body">
+                <div class="message-text"> {{ message.text }} </div>
+                {% timezone "Europe/Moscow" %}
+                    <div class="message-time"> {{ message.time }} </div>
+                {% endtimezone %}
+            </div>
+        </div>
+    {% empty %}
+        <div class="placeholder">
+            Здесь пока нет сообщений.
+        </div>
+    {% endfor %}
+{% endblock messages %}

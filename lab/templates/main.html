@@ -1,0 +1,62 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>BMSTU</title>
+</head>
+<body>
+    {% include "form.html" with user_list=data.user_list %}
+    <div class="content">
+        <div class="content-container">
+            <header>
+                <button class="menu-button" id="open-form-button">
+                    +
+                    {% comment %} <img src="{% static 'vector/menu-burger-svgrepo-com.svg' %}" alt=""> {% endcomment %}
+                </button>
+                <form action="logout" method="get">
+                    {% comment %} <input type="submit", text="logout" class="menu-button"> {% endcomment %}
+                    <button class="menu-button" type="submit">
+                        logout
+                    </button>
+                </form>
+                <form action="{% url 'chats_filter' %}" method="post" enctype="multipart/form-data" class="search-container">
+                    {% csrf_token %}
+                    <input name="text" type="text" value="{{ data.search_filter }}" class="search-input" placeholder=" Поиск">
+                    
+                </form>
+            </header>
+            
+            <div class="chats-container">
+                {% for chat_info in data.chat_info %}
+                {% with chat=chat_info.chat client=chat_info.client message=chat_info.last_message %}
+                    <a class="chat-card" href="{% url 'chat_url' chat.id %}">
+                        {% with chat.image_path as image_static %}
+                            <img src="{% static image_static %}" alt="" class="chat-image">
+                        {% endwith %}
+                        <div class="chat-info">
+                            <div class="chat-info-top">
+                                <span class="chat-name">{{ chat.name }}</span>
+                                <span class="chat-last-message-time"> {{ message.time }} </span>
+                            </div>
+                            <div class="chat-info-bottom">
+                                <span class="chat-last-message"> {{ message.text }} </span>
+                                {% if client.unread_messages > 0 %}
+                                    <span class="chat-unread-messages-counter"> {{client.unread_messages}} </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                {% endwith %}
+                {% endfor %}
+            </div>
+            {% if user.is_authenticated %}
+                <div>{{user.client.last_name}}</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+<script src="{% static 'js/script.js' %}"></script>
+</html>

@@ -1,0 +1,248 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 14px;
+  background-color: darkgray;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+header {
+  height: 80px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  justify-content: space-between;
+}
+
+.content {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-button {
+  height: 100%;
+  width: min-content;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  font-size: 2em;
+  color: #9a9a9a;
+}
+
+.search-container {
+  width: 90%;
+  display: flex;
+}
+
+.search-input {
+  border-radius: 20px;
+  background-color: #eeeeee;
+  border: 0px;
+  width: 100%;
+  padding-left: 20px;
+}
+
+.chats-container {
+  min-height: 700px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+a:active {
+  color: inherit;
+}
+
+.chat-card {
+  color: inherit;
+  display: flex;
+  min-height: 100px;
+  height: fit-content;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+  overflow: hidden;
+  /* border: 2px solid black; */
+  padding: 10px 20px;
+  gap: 20px;
+  text-decoration: none;
+}
+
+.chat-card:hover {
+  background-color: #eeeeee;
+  cursor: pointer;
+}
+
+.chat-image {
+  width: 80px;
+  height: 80px;
+  background-color: #add8e6;
+  border-radius: 40px;
+  flex: 0 0 80px;
+}
+
+.chat-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  flex: 1 1 auto;
+  gap: 8px;
+  min-width: 0;
+}
+
+.chat-info-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.chat-name {
+  font-size: 1.5em;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.chat-last-message-time {
+  font-size: 1.4em;
+  font-weight: lighter;
+  color: darkgray;
+}
+
+.chat-info-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-last-message {
+  /* display: flex; */
+  height: 1.4em;
+  font-size: 1.4em;
+  font-weight: 500;
+  color: darkgray;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  max-width: 100%;
+  flex: 1 1;
+}
+
+.chat-unread-messages-counter {
+  height: 1.4em;
+  font-size: 1.5em;
+  border-radius: 100vmax;
+  background-color: skyblue;
+  color: white;
+  padding: 0 0.4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 1.4em
+}
+
+/* new chat form */
+.newchat-form {
+  height: 300px;
+  width: 400px;
+  background-color: white;
+  border: 2px solid #add8e6;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: calc(50% - 200px);
+  top: calc(40% - 150px);
+  padding: 10px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.newchat-form-users {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.newchat-form-user {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 20px 0px 10px;
+  gap: 10px;
+}
+
+.newchat-form-user:hover {
+  background-color: #eeeeee;
+}
+
+.user-profile-img {
+  flex: 0 0 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-profile-img > img {
+  height: 60px;
+  width: 60px;
+  border-radius: 100vmax;
+  background-color: lightblue;
+}
+
+.user-profile-name {
+  min-width: 0px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-profile-name > span {
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+} 
+
+.newchat-form-user > input {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  flex: 0 0 30px;
+
+}

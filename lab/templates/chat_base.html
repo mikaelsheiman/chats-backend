@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/chat.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <div class="chat-content">
+        <div class="chat-content-container">
+            <header>
+                {% block chat_info %}{% endblock %}
+                
+            </header>
+            <div class="chat-body" style="background-image: url({% static 'img/custom-background.jpg' %})">
+                <div class="messages-container">
+                    {% block messages %}{% endblock messages %}
+                </div>
+            </div>
+            <footer>
+                <form method="post" action="send" class="send-form">
+                    {% csrf_token %}
+                    <button class="clip-button custom-button">
+                        <img src="{% static "vector/clip-svgrepo-com.svg" %}" alt="">
+                    </button>
+                    <input name="text" type="text" class="message-input" placeholder=" Написать сообщение...">
+                    <button type="submit" class="send-button custom-button">
+                        <img src="{% static "vector/send-alt-1-svgrepo-com.svg" %}" alt="">
+                    </button>
+                </form>
+            </footer>
+        </div>
+    </div>
+</body>
+<svg height="0" width="0">
+    <defs>
+        <clipPath id="left-droplet">
+            <path d="M 10,0 A 10,10 0 0 1 0,10 H 16 V 0 Z">
+        </clipPath>
+        <clipPath id="right-droplet">
+            <path d="M 6,0 A 10,10 0 0 0 16,10 H 0 V 0 Z">
+        </clipPath>
+    </defs>
+</svg>
+</html>

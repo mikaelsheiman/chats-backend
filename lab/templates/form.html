@@ -1,0 +1,23 @@
+{% load static %}
+<form action="new_chat" method="post" class="newchat-form hidden">
+    {% csrf_token %}
+    <label>
+        Название беседы:
+        <input type="text" name="new_name">
+    </label>
+    <input type="submit">
+    <div class="newchat-form-users">
+        {% for friend in user_list %}
+            <div class="newchat-form-user">
+                <div class="user-profile-img">
+                    <img src="{% static "vector/dialog-svgrepo-com.svg" %}" alt="">
+                </div>
+                <div class="user-profile-name">
+                    <span>{{ friend.first_name }} {{ friend.last_name }}</span>
+                    <span>{{ friend.nickname }}</span>
+                </div>
+                <input type="checkbox" value="{{friend.id}}" name="choices">
+            </div>
+        {% endfor %}
+    </div>
+</form>

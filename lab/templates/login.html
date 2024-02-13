@@ -1,0 +1,25 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>BMSTU</title>
+</head>
+<body>
+    <form action="", method='post'>
+        {% csrf_token %}
+        <div>
+            <label for="">Username </label>
+            <input type="text" name="username" id="">
+        </div>
+        <div>
+            <label for="">Password </label>
+            <input type="text" name="password" id="">
+        </div>
+        <input type="submit" name="" id="">
+    </form>
+</body>
+<script src="{% static 'js/script.js' %}"></script>
+</html>
