@@ -1,0 +1,63 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/chat.css' %}">
+    <title>BMSTU Название беседы</title>
+</head>
+<body>
+    <div class="chat-content">
+        <div class="chat-content-container">
+            <header>
+                <img src="{% static 'vector/dialog-svgrepo-com.svg' %}" alt="" class="chat-image">
+                <div class="chat-info">
+                    <span class="chat-name">Название беседы</span>
+                    <span class="members-count">2 участника</span>
+                </div>
+                <input name="text" type="text" class="search-input" placeholder="Поиск по сообщению...">
+                <button class="search-button custom-button">
+                    <img src="{% static "vector/magnifying-glass-svgrepo-com.svg" %}" alt="">
+                </button>
+            </header>
+            <div class="chat-body" style="background-image: url({% static 'img/custom-background.jpg' %})">
+                <div class="messages-container">
+                    <div class="placeholder">
+                        Здесь пока нет сообщений.
+                    </div>
+
+                    {% for message in data.messages_list %}
+                        {% if message.author == 'You' %}
+                        <div class="message droplet my-message">
+                        {% else %}
+                        <div class="message droplet">
+                        {% endif %}
+                            <div class="message-text"> {{ message.text }} </div>
+                            <div class="message-time"> {{ message.time }} </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <footer>
+                <button class="clip-button custom-button">
+                    <img src="{% static "vector/clip-svgrepo-com.svg" %}" alt="">
+                </button>
+                <input name="text" type="text" class="message-input" placeholder=" Написать сообщение...">
+                <button class="send-button custom-button">
+                    <img src="{% static "vector/send-alt-1-svgrepo-com.svg" %}" alt="">
+                </button>
+            </footer>
+        </div>
+    </div>
+</body>
+<svg height="0" width="0">
+    <defs>
+        <clipPath id="left-droplet">
+            <path d="M 10,0 A 10,10 0 0 1 0,10 H 16 V 0 Z">
+        </clipPath>
+        <clipPath id="right-droplet">
+            <path d="M 6,0 A 10,10 0 0 0 16,10 H 0 V 0 Z">
+        </clipPath>
+    </defs>
+</svg>
+</html>

@@ -1,0 +1,38 @@
+{% extends "chat_base.html" %}
+{% load static %}
+
+{% block title %}{{ data.chat.chat_name }}{% endblock title %}
+
+{% block chat_info %}
+    {% with 'vector/'|add:data.chat.chat_image as image_static %}
+        <img src="{% static image_static %}" alt="" class="chat-image">
+    {% endwith %}
+    <div class="chat-info">
+        <span class="chat-name">{{ data.chat.chat_name }}</span>
+        <span class="members-count">{{ data.chat.members_count }} участников</span>
+    </div>
+    <form action="{% url 'filter' data.chat.chat_id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="text" type="text" value="{{ data.search_filter }}" class="search-input" placeholder="Поиск по сообщению...">
+        <button type="submit" class="search-button custom-button">
+            <img src="{% static "vector/magnifying-glass-svgrepo-com.svg" %}" alt="">
+        </button>
+    </form>
+{% endblock %}
+
+{% block messages %}
+    {% for message in data.messages %}
+        {% if message.author == 'You' %}
+        <div class="message droplet my-message">
+        {% else %}
+        <div class="message droplet">
+        {% endif %}
+            <div class="message-text"> {{ message.text }} </div>
+            <div class="message-time"> {{ message.time }} </div>
+        </div>
+    {% empty %}
+        <div class="placeholder">
+            Здесь пока нет сообщений.
+        </div>
+    {% endfor %}
+{% endblock messages %}

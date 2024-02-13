@@ -1,0 +1,45 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>BMSTU</title>
+</head>
+<body>
+    <div class="content">
+        <div class="content-container">
+            <header>
+                <div class="menu-button">
+                    ☰
+                    {% comment %} <img src="{% static 'vector/menu-burger-svgrepo-com.svg' %}" alt=""> {% endcomment %}
+                </div>
+                <form action="{% url 'chats_filter' %}" method="post" enctype="multipart/form-data" class="search-container">
+                    {% csrf_token %}
+                    <input name="text" type="text" value="{{ data.search_filter }}" class="search-input" placeholder=" Поиск">
+                    
+                </form>
+            </header>
+            <div class="chats-container">
+                {% for chat in data.chat_list %}
+                    <a class="chat-card" href="{% url 'chat_url' chat.chat_id %}">
+                        <img src="{% static 'vector/dialog-svgrepo-com.svg' %}" alt="" class="chat-image">
+                        <div class="chat-info">
+                            <div class="chat-info-top">
+                                <span class="chat-name">{{ chat.chat_name }}</span>
+                                <span class="chat-last-message-time">{{ chat.last_message_time }}</span>
+                            </div>
+                            <div class="chat-info-bottom">
+                                <span class="chat-last-message">{{ chat.last_message }}</span>
+                                <span class="chat-unread-messages-counter">{{ chat.unread_messages }}</span>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <div>Hello world!</div>
+        </div>
+    </div>
+</body>
+</html>
