@@ -39,7 +39,7 @@ header {
 
 .menu-button {
   height: 100%;
-  width: min-content;
+  min-width: 200px;
   display: flex;
   text-align: center;
   justify-content: center;
@@ -237,6 +237,10 @@ a:active {
   overflow: hidden;
   text-wrap: nowrap;
   text-overflow: ellipsis;
+} 
+
+.user-profile-name > .pr-name {
+  font-weight: 600;
 } 
 
 .newchat-form-user > input {

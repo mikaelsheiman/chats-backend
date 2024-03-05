@@ -1,5 +1,5 @@
 {% load static %}
-<form action="new_chat" method="post" class="newchat-form hidden">
+<form action="new_chat" method="post" class="newchat-form hidden" id="newchat-form">
     {% csrf_token %}
     <label>
         Название беседы:
@@ -13,7 +13,7 @@
                     <img src="{% static "vector/dialog-svgrepo-com.svg" %}" alt="">
                 </div>
                 <div class="user-profile-name">
-                    <span>{{ friend.first_name }} {{ friend.last_name }}</span>
+                    <span class="pr-name">{{ friend.first_name }} {{ friend.last_name }}</span>
                     <span>{{ friend.nickname }}</span>
                 </div>
                 <input type="checkbox" value="{{friend.id}}" name="choices">

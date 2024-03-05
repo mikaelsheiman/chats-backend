@@ -9,12 +9,16 @@
 </head>
 <body>
     {% include "form.html" with user_list=data.user_list %}
+    {% include "form_message.html" with chat_info=data.chat_info %}
     <div class="content">
         <div class="content-container">
             <header>
                 <button class="menu-button" id="open-form-button">
-                    +
+                    +chat
                     {% comment %} <img src="{% static 'vector/menu-burger-svgrepo-com.svg' %}" alt=""> {% endcomment %}
+                </button>
+                <button class="menu-button" id="open-form-message-button">
+                    +message
                 </button>
                 <form action="logout" method="get">
                     {% comment %} <input type="submit", text="logout" class="menu-button"> {% endcomment %}
@@ -22,7 +26,7 @@
                         logout
                     </button>
                 </form>
-                <form action="{% url 'chats_filter' %}" method="post" enctype="multipart/form-data" class="search-container">
+                <form action="{% url 'chats_filter' %}" method="get" enctype="multipart/form-data" class="search-container">
                     {% csrf_token %}
                     <input name="text" type="text" value="{{ data.search_filter }}" class="search-input" placeholder=" Поиск">
                     

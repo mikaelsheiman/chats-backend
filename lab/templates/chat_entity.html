@@ -29,7 +29,7 @@
         </button>
     </form>
 
-    <form action="{% url 'filter' data.chat.id %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'filter' data.chat.id %}" method="get" enctype="multipart/form-data">
         {% csrf_token %}
         <input name="text" type="text" value="{{ data.search_filter }}" class="search-input" placeholder="Поиск по сообщению...">
         <button type="submit" class="search-button custom-button">

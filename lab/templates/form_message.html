@@ -1,0 +1,23 @@
+{% load static %}
+<form action="new_multimessage" method="post" class="newchat-form hidden" id="newmessage-form">
+    {% csrf_token %}
+    <label>
+        Текст сообщения:
+        <input type="text" name="text">
+    </label>
+    <input type="submit">
+    <div class="newchat-form-users">
+        {% for chat in chat_info %}
+            <div class="newchat-form-user">
+                <div class="user-profile-img">
+                    <img src="{% static "vector/dialog-svgrepo-com.svg" %}" alt="">
+                </div>
+                <div class="user-profile-name">
+                    <span class="pr-name">{{ chat.chat.name }}</span>
+                    <span>{{ chat.last_message.text }}</span>
+                </div>
+                <input type="checkbox" value="{{chat.chat.id}}" name="choices", class="message_choices">
+            </div>
+        {% endfor %}
+    </div>
+</form>

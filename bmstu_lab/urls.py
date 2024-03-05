@@ -27,6 +27,7 @@ urlpatterns = [
     path('chat/<int:id>/send', views.SendMessage, name='send'),
     path('chat/<int:id>/delete', views.DeleteChat, name='delete_chat'),
     path('chats/new_chat', views.CreateChat, name='new_chat'),
+    path('chats/new_multimessage', views.SendMultiMessage, name="new_multimessage"),
     path('login/', views.login_user, name='login'),
     path('chats/logout/', views.logout_user, name='logout'),
 ]

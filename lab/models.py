@@ -139,16 +139,9 @@ class Managable(models.Model):
     active_objects = ActiveManager()
 
     def logic_delete(self):
-        # self.state = 0
-        # self.save()
+        self.state = 0
+        self.save()
 
-    	# ПОТОМ УДАЛИТЬ
-        conn = psycopg2.connect(dbname="web_db", host="localhost", user="student", password="root", port="5432")
-        cursor = conn.cursor()
-        cursor.execute(f'''UPDATE {self.get_table_name()} SET state = 0 WHERE id = {self.id}''')
-        conn.commit()
-        cursor.close()
-        conn.close()
 
     class Meta:
         abstract = True
@@ -185,12 +178,13 @@ class Chat(Managable):
         ACTIVE = 1, _('Active')
 
     name = models.CharField(max_length=255)
+    messages = models.ManyToManyField("Message", null=True, related_name="chats")
     image_path = models.CharField(max_length=255, default='vector/dialog-svgrepo-com.svg', blank=True, null=True)
     users = models.ManyToManyField(Client, through='ChatUser')
     messages_total = models.BigIntegerField(default=0, blank=True)
     state = models.IntegerField(choices=ChatState.choices, default=ChatState.ACTIVE)
     # last_message = models.OneToOneField('Message', models.DO_NOTHING, null=True, related_name='chat_if_last_message')
-    last_message_time = models.DateTimeField(null=True, blank=True)
+    last_message_time = models.TimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f'Chat ({self.id}) "{self.name}" {self.ChatState.names[self.state]}'
@@ -259,9 +253,11 @@ class Message(Managable):
         DELETED = 0, _('Deleted') # deleted is zero so you can use if(obj.state)
         SENT = 1, _('Sent')
         DRAFT = 2, _('Draft')
-        REJECTED = 3, _('Rejected')
+        IN_PROCESS = 3, _('In process')
+        REJECTED = 4, _('Rejected')
 
-    chat = models.ForeignKey(Chat, models.CASCADE)
+
+    chat = models.ForeignKey(Chat, models.CASCADE, null=True)
     user = models.ForeignKey(Client, models.DO_NOTHING)
     # message_state = models.ForeignKey(MessageState, models.DO_NOTHING)
     text = models.TextField(blank=True, null=True)

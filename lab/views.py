@@ -9,14 +9,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User as AUser
 from django.db.models import Max
+from operator import attrgetter
 
 
 
 def GetChats(request):
+    search_filter = request.GET.get('text')
     client = request.user.client
 
-    if request.method == 'POST':
-        search_filter = request.POST['text']
+
+    if search_filter is not None:
         chat_list = Chat.active_objects.filter(users__id__exact=client.id, name__contains=search_filter).order_by('last_message_time')
         return render(request, 'main.html', { 'data' : {
             'search_filter' : search_filter,
@@ -24,7 +26,6 @@ def GetChats(request):
             'chat_info' : [{
                 'chat': chat, 
                 'client': ChatUser.objects.get(chat=chat, user=client),
-                # 'last_message': Message.objects.filter(chat=chat).order_by('-time').first(),
                 'last_message': Message.objects.filter(chat=chat).last(),
                 } for chat in chat_list
                 ]
@@ -47,23 +48,42 @@ def GetChat(request, id):
     client = request.user.client
     chat = Chat.objects.get(pk=id)
     chat_user = ChatUser.objects.get(chat=chat, user=client)
+    search_filter = request.GET.get('text')
 
     chat_user.update_read_messages()
 
-    if request.method == 'POST':
-        search_filter = request.POST['text']
+    if search_filter is not None:
+        message_list = Message.objects.filter(chat__id__exact=id, text__contains=search_filter)
+        message_list2 = chat.messages.all()
         return render(request, 'chat_entity.html', { 'data' : {
             'search_filter' : search_filter,
             'chat' : chat,
-            'messages' : Message.objects.filter(chat__id__exact=id, text__contains=search_filter),
+            'messages' : message_list2,
         }})
     else:
+        message_list = Message.objects.filter(chat__id__exact=id)
+        message_list2 = chat.messages.all()
         return render(request, 'chat_entity.html', { 'data' : {
             # 'search_filter' : search_filter,
             'chat' : chat,
-            'messages' : Message.objects.filter(chat__id__exact=id),
+            'messages' : message_list2,
         }})
 
+
+def SendMultiMessage(request):
+    message_text = request.POST.get('text')
+    chat_list = request.POST.getlist('choices')
+    
+    new_message = Message(text = message_text, user = request.user.client)
+    new_message.save()
+
+    for id in chat_list:
+        chat = Chat.objects.get(id=id)
+        new_message.chats.add(chat)
+
+
+
+    return redirect('chats')
 
 
 def SendMessage(request, id):
